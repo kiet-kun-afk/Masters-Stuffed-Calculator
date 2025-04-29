@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master's Stuffed Shadow Lion Head Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Master's Stuffed Shadow Lion Head Calculator</h1>
+
+    <label for="supreme">Supreme Hide:</label>
+    <input type="number" id="supreme" value="0">
+
+    <label for="usable">Usable Hide:</label>
+    <input type="number" id="usable" value="0">
+
+    <label for="damaged">Damaged Hide:</label>
+    <input type="number" id="damaged" value="0">
+
+    <button onclick="calculateMaxMaster()">Calculate</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function calculateMaxMaster() {
+            const supreme = Number(document.getElementById("supreme").value);
+            const usable0 = Number(document.getElementById("usable").value);
+            const damaged0 = Number(document.getElementById("damaged").value);
+
+            if (isNaN(supreme) || isNaN(usable0) || isNaN(damaged0)) {
+                document.getElementById("result").innerText = "Please enter valid numbers for all fields.";
+                return;
+            }
+
+            let maxX = 0;
+
+            for (let x = 0; x <= 2000; x++) {
+                const neededUsable = 50 * x;
+                const neededDamaged = 60 * x;
+
+                let minUConv = Math.max(0, Math.ceil((neededDamaged - damaged0) / 2));
+                let feasible = false;
+
+                for (let uConv = minUConv; uConv <= usable0 + 2 * supreme; uConv++) {
+                    let reqS1 = Math.max(0, Math.ceil((neededUsable + uConv - usable0) / 2));
+                    let reqS2 = Math.max(0, Math.ceil((uConv - usable0) / 2));
+                    let reqS = Math.max(reqS1, reqS2);
+
+                    if (reqS <= supreme) {
+                        feasible = true;
+                        break;
+                    }
+                }
+
+                if (feasible) {
+                    maxX = x;
+                } else {
+                    break;
+                }
+            }
+
+            document.getElementById("result").innerText = `Max Master's Stuffed Shadow Lion Head you can craft: ${maxX}`;
+        }
+    </script>
+</body>
+
+</html>
