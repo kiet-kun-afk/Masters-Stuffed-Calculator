@@ -32,22 +32,61 @@
 </head>
 
 <body>
-    <h1>Master's Stuffed Shadow Lion Head Calculator</h1>
 
-    <label for="supreme">Supreme Hide:</label>
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <img src="/img/lion-head.webp" alt="" style="border: 1px solid #f6c232;background-color: black;">
+        <h1 style="color: #f6c232;">Master's Stuffed Shadow Lion Head</h1>
+    </div>
+
+    <div>
+        <p>This calculator helps you determine the maximum number of Master's Stuffed Shadow
+            Lion Heads you can craft based on the number of Supreme, Usable, and Damaged hides you have.</p>
+        <p>The formula used is:</p>
+        <p>Max X = min(50 * X + 2 * U + 2 * S - 60 * X)</p>
+        <p>Where:</p>
+        <ul>
+            <li>X = max master's stuffed shadow lion head</li>
+            <li>U = usable hide</li>
+            <li>S = supreme hide</li>
+        </ul>
+    </div>
+
+    <div style="display: flex; align-items: center;">
+        <img src="img/supreme-hide.webp" alt="" style="border: 1px solid #f6c232;background-color: black;">
+        <label for="supreme" style="color: #f6c232;">Supreme Hide:</label>
+    </div>
     <input type="number" id="supreme" value="0">
 
-    <label for="usable">Usable Hide:</label>
+    <div style="display: flex; align-items: center;">
+        <img src="img/usable-hide.webp" alt="" style="border: 1px solid #04b3f1;background-color: black;">
+        <label for="usable" style="color: #04b3f1;">Usable Hide:</label>
+    </div>
     <input type="number" id="usable" value="0">
 
-    <label for="damaged">Damaged Hide:</label>
+    <div style="display: flex; align-items: center;">
+        <img src="img/damaged-hide.webp" alt="" style="border: 1px solid #5ff369;background-color: black;">
+        <label for="damaged" style="color: #5ff369;"><b>Damaged Hide:</b></label>
+    </div>
     <input type="number" id="damaged" value="0">
 
-    <button onclick="calculateMaxMaster()">Calculate</button>
+    <button onclick="calculateMaxMaster()" style="font-weight: bold;">Calculate</button>
 
     <div class="result" id="result"></div>
 
+    <a href="https://github.com/kiet-kun-afk/Masters-Stuffed-Calculator">link github</a>
+    <br>
+    <a href="https://chatgpt.com/share/6807198a-9654-8003-b025-3b4594062767">link chat gpt</a>
+
     <script>
+        const inputs = document.querySelectorAll('input[type="number"]');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value < 0) {
+                    alert("Please enter a non-negative number.");
+                    input.value = 0;
+                }
+            });
+        });
         function calculateMaxMaster() {
             const supreme = Number(document.getElementById("supreme").value);
             const usable0 = Number(document.getElementById("usable").value);
