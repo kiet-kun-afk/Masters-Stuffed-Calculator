@@ -23,19 +23,97 @@
             margin-top: 10px;
         }
 
+        .hide {
+            display: flex;
+            align-items: center;
+        }
+
         .result {
-            margin-top: 20px;
             font-weight: bold;
             font-size: 1.2em;
+        }
+
+        .result {
+            display: flex;
+            justify-content: center;
+        }
+
+        .d-result {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .supreme-hide {
+            border: 1px solid #f6c232;
+            background-color: black;
+            width: 40px;
+        }
+
+        .usable-hide {
+            border: 1px solid #04b3f1;
+            background-color: black;
+            width: 40px;
+        }
+
+        .damaged-hide {
+            border: 1px solid #5ff369;
+            background-color: black;
+            width: 40px;
+        }
+
+        .master-head {
+            width: 40px;
+            border: 1px solid #f6c232;
+            background-color: black;
+        }
+
+        .master-head-text {
+            color: #f6c232;
         }
     </style>
 </head>
 
 <body>
 
-    <div style="display: flex; align-items: center; justify-content: center;">
-        <img src="img/lion-head.webp" alt="" style="border: 1px solid #f6c232;background-color: black;">
-        <h1 style="color: #f6c232;">Master's Stuffed Shadow Lion Head</h1>
+    <div class="hide">
+        <img src="img/supreme-hide.webp" alt="" class="supreme-hide">
+        <label for="supreme" style="color: #f6c232;"><b>Supreme Hide:</b></label>
+    </div>
+    <input type="number" id="supreme" value="0">
+
+    <div class="hide">
+        <img src="img/usable-hide.webp" alt="" class="usable-hide">
+        <label for="usable" style="color: #04b3f1;"><b>Usable Hide:</b></label>
+    </div>
+    <input type="number" id="usable" value="0">
+
+    <div class="hide">
+        <img src="img/damaged-hide.webp" alt="" class="damaged-hide">
+        <label for="damaged" style="color: #5ff369;"><b>Damaged Hide:</b></label>
+    </div>
+    <input type="number" id="damaged" value="0">
+
+    <button onclick="calculate()" style="font-weight: bold;">Calculate</button>
+
+    <div class="result" id="result">You can craft:</div>
+    <div class="d-result">
+        <div class="result" id="lion-head-result">0</div>&nbsp;
+        <div class="d-result">
+            <img src="img/lion-head.webp" alt="" class="master-head">&nbsp;
+            <h3 class="master-head-text">Master's Stuffed Shadow Lion Head</h3>
+        </div>
+    </div>
+
+    <div class="d-result">OR</div>
+
+    <div class="d-result">
+        <div class="result" id="rhino-head-result">0</div>&nbsp;
+        <div class="d-result">
+            <img src="img/rhino-head.webp" alt="" class="master-head">&nbsp;
+            <h3 class="master-head-text">Master's Stuffed Grass Rhino Head</h3>
+        </div>
     </div>
 
     <div>
@@ -51,28 +129,6 @@
         </ul>
     </div>
 
-    <div style="display: flex; align-items: center;">
-        <img src="img/supreme-hide.webp" alt="" style="border: 1px solid #f6c232;background-color: black;">
-        <label for="supreme" style="color: #f6c232;">Supreme Hide:</label>
-    </div>
-    <input type="number" id="supreme" value="0">
-
-    <div style="display: flex; align-items: center;">
-        <img src="img/usable-hide.webp" alt="" style="border: 1px solid #04b3f1;background-color: black;">
-        <label for="usable" style="color: #04b3f1;">Usable Hide:</label>
-    </div>
-    <input type="number" id="usable" value="0">
-
-    <div style="display: flex; align-items: center;">
-        <img src="img/damaged-hide.webp" alt="" style="border: 1px solid #5ff369;background-color: black;">
-        <label for="damaged" style="color: #5ff369;"><b>Damaged Hide:</b></label>
-    </div>
-    <input type="number" id="damaged" value="0">
-
-    <button onclick="calculateMaxMaster()" style="font-weight: bold;">Calculate</button>
-
-    <div class="result" id="result"></div>
-
     <a href="https://github.com/kiet-kun-afk/Masters-Stuffed-Calculator">link github</a>
     <br>
     <a href="https://chatgpt.com/share/6807198a-9654-8003-b025-3b4594062767">link chat gpt</a>
@@ -87,7 +143,7 @@
                 }
             });
         });
-        function calculateMaxMaster() {
+        function calculate() {
             const supreme = Number(document.getElementById("supreme").value);
             const usable0 = Number(document.getElementById("usable").value);
             const damaged0 = Number(document.getElementById("damaged").value);
@@ -97,34 +153,38 @@
                 return;
             }
 
-            let maxX = 0;
 
-            for (let x = 0; x <= 2000; x++) {
-                const neededUsable = 50 * x;
-                const neededDamaged = 60 * x;
+            function calculateMaxMaster(usable, damaged) {
+                let maxX = 0;
+                for (let x = 0; x <= 2000; x++) {
+                    const neededUsable = usable * x;
+                    const neededDamaged = damaged * x;
 
-                let minUConv = Math.max(0, Math.ceil((neededDamaged - damaged0) / 2));
-                let feasible = false;
+                    let minUConv = Math.max(0, Math.ceil((neededDamaged - damaged0) / 2));
+                    let feasible = false;
 
-                for (let uConv = minUConv; uConv <= usable0 + 2 * supreme; uConv++) {
-                    let reqS1 = Math.max(0, Math.ceil((neededUsable + uConv - usable0) / 2));
-                    let reqS2 = Math.max(0, Math.ceil((uConv - usable0) / 2));
-                    let reqS = Math.max(reqS1, reqS2);
+                    for (let uConv = minUConv; uConv <= usable0 + 2 * supreme; uConv++) {
+                        let reqS1 = Math.max(0, Math.ceil((neededUsable + uConv - usable0) / 2));
+                        let reqS2 = Math.max(0, Math.ceil((uConv - usable0) / 2));
+                        let reqS = Math.max(reqS1, reqS2);
 
-                    if (reqS <= supreme) {
-                        feasible = true;
+                        if (reqS <= supreme) {
+                            feasible = true;
+                            break;
+                        }
+                    }
+
+                    if (feasible) {
+                        maxX = x;
+                    } else {
                         break;
                     }
                 }
-
-                if (feasible) {
-                    maxX = x;
-                } else {
-                    break;
-                }
+                return maxX;
             }
 
-            document.getElementById("result").innerText = `Max Master's Stuffed Shadow Lion Head you can craft: ${maxX}`;
+            document.getElementById("lion-head-result").innerText = `${calculateMaxMaster(50, 60)}`;
+            document.getElementById("rhino-head-result").innerText = `${calculateMaxMaster(10, 20)}`;
         }
     </script>
 </body>
